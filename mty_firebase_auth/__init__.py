@@ -1,5 +1,5 @@
-"""Metadata for drf-firebase-auth package."""
-__title__ = 'mty_drf-firebase-auth'
+"""Metadata for mty-firebase-auth package."""
+__title__ = 'mty_firebase_auth'
 __version__ = '0.1.0'
 __description__ = (
     'Custom Django Rest Framework authentication backend for '
@@ -10,7 +10,7 @@ __description__ = (
     'with email and password, and also adds support for '
     'custom user models.'
 )
-__url__ = 'https://github.com/SIGAMty/mty-drf-firebase-auth'
+__url__ = 'https://github.com/SIGAMty/mty-firebase-auth'
 __author__ = 'César Benjamín García Martinez'
 __author_email__ = 'cesar.benjamin@monterrey.gob.mx'
 __license__ = 'MIT'

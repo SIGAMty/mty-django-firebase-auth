@@ -3,7 +3,7 @@ import os
 
 import setuptools
 
-import mty_drf_firebase_auth as meta
+import mty_firebase_auth as meta
 
 this_dir = os.path.abspath(os.path.dirname(__file__))
 with open(os.path.join(this_dir, 'README.md'), 'r', encoding='utf-8') as f:
@@ -20,7 +20,7 @@ setuptools.setup(
     long_description=long_description,
     long_description_content_type='text/markdown',
     packages=setuptools.find_packages(),
-    python_requires='>=3.4',
+    python_requires='>=3.8',
     install_requires=[
         'djangorestframework>=3.9,<4',
         'firebase-admin>=4.5,<5'
