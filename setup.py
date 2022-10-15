@@ -3,7 +3,7 @@ import os
 
 import setuptools
 
-import drf_firebase_auth as meta
+import mty_drf_firebase_auth as meta
 
 this_dir = os.path.abspath(os.path.dirname(__file__))
 with open(os.path.join(this_dir, 'README.md'), 'r', encoding='utf-8') as f:
