@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-""" Settings config for the drf_firebase_auth application """
+""" Settings config for the mty_drf_firebase_auth application """
 import os
 
 from django.conf import settings
@@ -7,7 +7,7 @@ from rest_framework.settings import APISettings
 
 from .utils import map_firebase_uid_to_username
 
-USER_SETTINGS = getattr(settings, 'DRF_FIREBASE_AUTH', None)
+USER_SETTINGS = getattr(settings, 'MTY_DRF_FIREBASE_AUTH', None)
 
 DEFAULTS = {
     # allow anonymous requests without Authorization header set
