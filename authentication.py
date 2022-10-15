@@ -17,7 +17,7 @@ from .settings import api_settings
 from .models import FirebaseUser, FirebaseUserProvider
 
 from .utils import get_firebase_user_email
-from . import __title__
+from mty_firebase_auth import __title__
 
 log = logging.getLogger(__title__)
 User = get_user_model()
