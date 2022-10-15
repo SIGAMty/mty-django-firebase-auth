@@ -8,8 +8,8 @@ from rest_framework.test import APITestCase
 import requests
 import firebase_admin
 from firebase_admin import auth as firebase_auth
-from drf_firebase_auth.settings import api_settings
-from drf_firebase_auth.utils import (
+from mty_firebase_auth.settings import api_settings
+from mty_firebase_auth.utils import (
     get_firebase_user_email,
     map_firebase_uid_to_username,
     map_firebase_email_to_username
@@ -34,22 +34,22 @@ class WhoAmITests(APITestCase):
             ':signInWithCustomToken?key={api_key}'
         )
         self._MOCK_FIREBASE_CREATE_LOCAL_USER_FALSE = mock.patch(
-            'drf_firebase_auth.authentication.api_settings'
+            'mty_firebase_auth.authentication.api_settings'
             '.FIREBASE_CREATE_LOCAL_USER',
             new=False
         )
         self._MOCK_FIREBASE_CREATE_LOCAL_USER_TRUE = mock.patch(
-            'drf_firebase_auth.authentication.api_settings'
+            'mty_firebase_auth.authentication.api_settings'
             '.FIREBASE_CREATE_LOCAL_USER',
             new=True
         )
         self._MOCK_FIREBASE_USERNAME_MAPPING_FUNC_UID = mock.patch(
-            'drf_firebase_auth.authentication.api_settings'
+            'mty_firebase_auth.authentication.api_settings'
             '.FIREBASE_USERNAME_MAPPING_FUNC',
             new=map_firebase_uid_to_username
         )
         self._MOCK_FIREBASE_USERNAME_MAPPING_FUNC_EMAIL = mock.patch(
-            'drf_firebase_auth.authentication.api_settings'
+            'mty_firebase_auth.authentication.api_settings'
             '.FIREBASE_USERNAME_MAPPING_FUNC',
             new=map_firebase_email_to_username
         )

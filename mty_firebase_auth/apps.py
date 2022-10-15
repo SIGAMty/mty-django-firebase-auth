@@ -3,4 +3,4 @@ from django.apps import AppConfig
 
 
 class CoreConfig(AppConfig):
-    name = 'mty_drf_firebase_auth'
+    name = 'mty_firebase_auth'

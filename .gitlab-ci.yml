@@ -16,7 +16,7 @@ linting:
     - python --version
     - pip install pycodestyle
   script:
-    - pycodestyle --format=pylint --exclude='*migrations/*'  drf_firebase_auth/
+    - pycodestyle --format=pylint --exclude='*migrations/*'  mty_firebase_auth/
 
 unit test:
   stage: Test

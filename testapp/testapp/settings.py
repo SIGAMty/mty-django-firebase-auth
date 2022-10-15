@@ -40,7 +40,7 @@ INSTALLED_APPS = [
 
     'rest_framework',
 
-    'drf_firebase_auth'
+    'mty_firebase_auth'
 ]
 
 MIDDLEWARE = [
@@ -126,7 +126,7 @@ STATIC_URL = '/static/'
 REST_FRAMEWORK = {
   'DEFAULT_AUTHENTICATION_CLASSES': [
     'rest_framework.authentication.SessionAuthentication',
-    'drf_firebase_auth.authentication.FirebaseAuthentication',
+    'mty_firebase_auth.authentication.FirebaseAuthentication',
   ]
 }
 
