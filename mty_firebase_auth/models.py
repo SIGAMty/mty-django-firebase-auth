@@ -12,7 +12,7 @@ from django.conf import settings
 
 
 class FirebaseUser(models.Model):
-    user = models.ForeignKey(
+    user = models.OneToOneField(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
         null=False,

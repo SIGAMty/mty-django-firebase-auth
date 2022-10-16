@@ -49,14 +49,10 @@ class FirebaseAuthentication(authentication.TokenAuthentication):
 
     def _decode_token(self, token: str) -> Dict:
         """
-        Attempt to verify JWT from Authorization header with Firebase and
-        return the decoded token
+        Attempt to verify JWT from Authorization header with Firebase and return the decoded token
         """
         try:
-            decoded_token = firebase_auth.verify_id_token(
-                token,
-                check_revoked=api_settings.FIREBASE_CHECK_JWT_REVOKED
-            )
+            decoded_token = firebase_auth.verify_id_token(token, check_revoked=api_settings.FIREBASE_CHECK_JWT_REVOKED)
             log.info(f'_decode_token - decoded_token: {decoded_token}')
             return decoded_token
         except Exception as e:
@@ -78,10 +74,7 @@ class FirebaseAuthentication(authentication.TokenAuthentication):
             log.error(f'_authenticate_token - Exception: {e}')
             raise Exception(e)
 
-    def _get_or_create_local_user(
-            self,
-            firebase_user: firebase_auth.UserRecord
-    ) -> User:
+    def _get_or_create_local_user(self, firebase_user: firebase_auth.UserRecord) -> User:
         """
         Attempts to return or create a local User from Firebase user data
         """
@@ -129,10 +122,7 @@ class FirebaseAuthentication(authentication.TokenAuthentication):
                 raise Exception(e)
         return user
 
-    def _create_local_firebase_user(
-            self,
-            user: User,
-            firebase_user: firebase_auth.UserRecord
+    def _create_local_firebase_user(self, user: User, firebase_user: firebase_auth.UserRecord
     ):
         """ Create a local FireBase model if one does not already exist """
         # pylint: disable=no-member

@@ -15,6 +15,9 @@ DEFAULTS = {
     # path to JSON file with firebase secrets
     'FIREBASE_SERVICE_ACCOUNT_KEY':
         os.getenv('FIREBASE_SERVICE_ACCOUNT_KEY', ''),
+    # path to JSON file with firebase app config
+    'FIREBASE_APP_CONFIG_KEY':
+        os.getenv('FIREBASE_APP_CONFIG_KEY', ''),
     # allow creation of new local user in db
     'FIREBASE_CREATE_LOCAL_USER':
         os.getenv('FIREBASE_CREATE_LOCAL_USER', True),
