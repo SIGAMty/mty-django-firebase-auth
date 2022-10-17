@@ -172,23 +172,25 @@ class FirebaseEmailPasswordAuthMiddleware(MiddlewareMixin):
         next = None
         if request.GET:
             next = request.GET.get('next', None)
+            urlpath = request.path.split('login')[0]
 
-            if next and request.user.is_authenticated:
+            if next and urlpath == '/dadmin/' and request.user.is_authenticated and request.user.is_staff:
                 return redirect(next)
 
-        if request.POST and request.POST["username"] and request.POST["password"] and 'login' in request.path and not request.user.is_authenticated:
-            email = request.POST["username"]
-            print("email", email)
-            password = request.POST["password"]
+            if next and urlpath == '/wadmin/' and request.user.is_authenticated and request.user.has_perm('wagtailadmin.access_admin'):
+                return redirect(next)
 
-            if email and password:
-                firebase_user_login = authenticate_useremail(email, password)
-                if firebase_user_login:
-                    get_local_user = get_or_create_local_user(firebase_user_login)
-                    create_local_firebase_user(get_local_user, firebase_user_login)
-                    login(request, get_local_user)
-                    if next:
-                        return redirect(next)
-                    elif 'login' in request.path:
-                        return redirect(request.path.split('login')[0])
+        if request.POST and 'login' in request.path and request.user.is_authenticated is False:
+            if request.POST["username"] and request.POST["password"]:
+
+                email = request.POST["username"]
+                password = request.POST["password"]
+
+                if email and password:
+                    firebase_user_login = authenticate_useremail(email, password)
+                    if firebase_user_login:
+                        get_local_user = get_or_create_local_user(firebase_user_login)
+                        create_local_firebase_user(get_local_user, firebase_user_login)
+                        login(request, get_local_user)
+
 
