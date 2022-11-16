@@ -1,6 +1,4 @@
 from django.utils.deprecation import MiddlewareMixin
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth.backends import ModelBackend
 from django.core.exceptions import ImproperlyConfigured
 from django.contrib.auth import get_user_model
 from django.utils import timezone
@@ -14,9 +12,8 @@ from django.utils.functional import SimpleLazyObject
 import firebase
 import json
 from django.contrib import auth
-from django.contrib.auth import authenticate, login, update_session_auth_hash
+from django.contrib.auth import login
 from django.shortcuts import redirect
-from django.http import HttpResponseRedirect, Http404
 
 log = logging.getLogger(__title__)
 User = get_user_model()
@@ -41,10 +38,10 @@ def authenticate_useremail(user_email, user_password):
         uid = decoded_token.get('uid')
         firebase_user = firebase_admin_auth.get_user(uid)
         return firebase_user
-    except Exception:
-        pass
-        # log.error(f'_authenticate_token - Exception: {e}')
+    except Exception as e:
+        log.error(f'_authenticate_token - Exception: {e}')
         # raise Exception(e)
+        pass
 
 
 def get_or_create_local_user(firebase_user: firebase_admin_auth.UserRecord) -> User:
@@ -68,15 +65,11 @@ def get_or_create_local_user(firebase_user: firebase_admin_auth.UserRecord) -> U
         local_user.last_login = timezone.now()
         local_user.save()
     except User.DoesNotExist as e:
-        log.error(
-            f'_get_or_create_local_user - User.DoesNotExist: {local_email}'
-        )
+        log.error(f'_get_or_create_local_user - User.DoesNotExist: {local_email}')
         if not api_settings.FIREBASE_CREATE_LOCAL_USER:
             raise Exception('User is not registered to the application.')
         username = api_settings.FIREBASE_USERNAME_MAPPING_FUNC(firebase_user)
-        log.info(
-            f'_get_or_create_local_user - username: {username}'
-        )
+        log.info(f'_get_or_create_local_user - username: {username}')
         try:
             local_user = User.objects.create_user(
                 username=username,
@@ -134,7 +127,6 @@ def create_local_firebase_user(user: User, firebase_user: firebase_admin_auth.Us
             )
             new_local_provider.save()
 
-    # catch locally stored providers no longer associated at Firebase
     local_providers = FirebaseUserProvider.objects.filter(
         firebase_user=local_firebase_user
     )
@@ -158,7 +150,8 @@ class FirebaseEmailPasswordAuthMiddleware(MiddlewareMixin):
         response = self.get_response(request)
         return login_response or response
 
-    def firebase_email_login(self, request, email=None, password=None):
+    @staticmethod
+    def firebase_email_login(request, email=None, password=None):
         if not hasattr(request, "session"):
             raise ImproperlyConfigured(
                 "The Django authentication middleware requires session "
@@ -169,16 +162,16 @@ class FirebaseEmailPasswordAuthMiddleware(MiddlewareMixin):
             )
         request.user = SimpleLazyObject(lambda: get_user(request))
 
-        next = None
+        next_url = None
         if request.GET:
-            next = request.GET.get('next', None)
+            next_url = request.GET.get('next', None)
             urlpath = request.path.split('login')[0]
 
-            if next and urlpath == '/dadmin/' and request.user.is_authenticated and request.user.is_staff:
-                return redirect(next)
+            if next_url and urlpath == '/dadmin/' and request.user.is_authenticated and request.user.is_staff:
+                return redirect(next_url)
 
-            if next and urlpath == '/wadmin/' and request.user.is_authenticated and request.user.has_perm('wagtailadmin.access_admin'):
-                return redirect(next)
+            if next_url and urlpath == '/wadmin/' and request.user.is_authenticated and request.user.has_perm('wagtailadmin.access_admin'):
+                return redirect(next_url)
 
         if request.POST and 'login' in request.path and request.user.is_authenticated is False:
             if request.POST["username"] and request.POST["password"]:
@@ -192,5 +185,3 @@ class FirebaseEmailPasswordAuthMiddleware(MiddlewareMixin):
                         get_local_user = get_or_create_local_user(firebase_user_login)
                         create_local_firebase_user(get_local_user, firebase_user_login)
                         login(request, get_local_user)
-
-
