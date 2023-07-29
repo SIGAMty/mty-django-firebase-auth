@@ -24,10 +24,10 @@ DEFAULTS = {
     # attempt to split firebase user.display_name and set local user
     # first_name and last_name
     'FIREBASE_ATTEMPT_CREATE_WITH_DISPLAY_NAME':
-        os.getenv('FIREBASE_ATTEMPT_CREATE_WITH_DISPLAY_NAME', True),
+        os.getenv('FIREBASE_ATTEMPT_CREATE_WITH_DISPLAY_NAME', False),
     # commonly JWT or Bearer (e.g. JWT <token>)
     'FIREBASE_AUTH_HEADER_PREFIX':
-        os.getenv('FIREBASE_AUTH_HEADER_PREFIX', 'JWT'),
+        os.getenv('FIREBASE_AUTH_HEADER_PREFIX', 'Bearer'),
     # verify that JWT has not been revoked
     'FIREBASE_CHECK_JWT_REVOKED':
         os.getenv('FIREBASE_CHECK_JWT_REVOKED', True),
