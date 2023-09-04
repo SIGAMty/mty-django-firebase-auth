@@ -1,0 +1,23 @@
+[project]
+name = "mty_firebase_auth_SIGA"
+version = "0.1.0"
+authors = [
+  { name="Gobierno de Monterrey", email="desarrollo@monterrey.gob.mx" },
+]
+description = "Middleware de autenticación de firebase"
+readme = "README.md"
+requires-python = ">=3.7"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/siga_mty/mty_firebase_auth"
+"Bug Tracker" = "https://github.com/siga_mty/mty_firebase_auth/issues"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
