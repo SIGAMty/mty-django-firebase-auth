@@ -11,18 +11,7 @@ steps:
 - name: 'python'
   entrypoint: python
   args: ["-m", "build"]
-
-#- name: 'python'
-#  entrypoint: python
-#  args:
-#  - '-m'
-#  - 'twine'
-#  - 'upload'
-#  - '--repository-url'
-#  - 'https://${_LOCATION}-python.pkg.dev/$PROJECT_ID/${_REPOSITORY}/'
-#  - 'dist/*'
-
 artifacts:
   pythonPackages:
-    - repository: "https://us-central1-python.pkg.dev/${PROJECT_ID}/${_REPOSITORY}"
+    - repository: "https://us-central1-python.pkg.dev/${PROJECT_ID}/${_REPOSITORY}/"
       paths: ["dist/*"]
