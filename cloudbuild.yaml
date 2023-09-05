@@ -18,5 +18,5 @@ steps:
   - 'twine'
   - 'upload'
   - '--repository-url'
-  - 'https://${_LOCATION}-python.pkg.dev/$PROJECT_ID/${_REPOSITORY}'
+  - 'https://${_LOCATION}-python.pkg.dev/$PROJECT_ID/${_REPOSITORY}/'
   - 'dist/*'
