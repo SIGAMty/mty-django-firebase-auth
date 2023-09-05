@@ -1,8 +1,11 @@
 steps:
-- name: python
+- name: requirements
   entrypoint: pip
   args: ["install", "-r", "requirements.txt", "--user"]
-- name: python
+- name: build
+  entrypoint: python
+  args: ["-m", "build"]
+- name: push
   entrypoint: python
   args:
   - '-m'
