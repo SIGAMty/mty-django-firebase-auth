@@ -5,7 +5,7 @@ steps:
 - name: python
   entrypoint: python
   args: ["-m", "build"]
-- name: push
+- name: python
   entrypoint: python
   args:
   - '-m'
