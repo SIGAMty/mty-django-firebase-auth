@@ -2,6 +2,9 @@ steps:
 - name: 'python'
   entrypoint: python
   args: ['-m', 'pip', 'install', '--upgrade', 'pip']
+- name: python
+  entrypoint: python
+  args: ["-m", "pip", "install", "build", "pytest", "Flask", "--user"]
 - name: 'python'
   entrypoint: pip
   args: ["install", "-r", "requirements.txt", "--user"]
