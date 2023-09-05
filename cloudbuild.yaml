@@ -10,6 +10,9 @@ steps:
   args: ["install", "-r", "requirements.txt", "--user"]
 - name: 'python'
   entrypoint: python
+  args: ["-m", "build"]
+- name: 'python'
+  entrypoint: python
   args:
   - '-m'
   - 'twine'
