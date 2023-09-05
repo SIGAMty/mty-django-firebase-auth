@@ -1,18 +1,12 @@
 steps:
 - name: 'python'
-  entrypoint: python3
+  entrypoint: python
   args: ['-m', 'pip', 'install', '--upgrade', 'pip']
-- name: 'python'
-  entrypoint: python3
-  args: ['-m', 'pip', 'install', 'build']
 - name: 'python'
   entrypoint: pip
   args: ["install", "-r", "requirements.txt", "--user"]
 - name: 'python'
-  entrypoint: python3
-  args: ["-m", "build"]
-- name: 'python'
-  entrypoint: python3
+  entrypoint: python
   args:
   - '-m'
   - 'twine'
