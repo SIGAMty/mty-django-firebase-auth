@@ -1,5 +1,5 @@
 [project]
-name = "mty_firebase_auth_SIGA"
+name = "mty_firebase_auth"
 version = "0.1.2"
 authors = [
   { name="Gobierno de Monterrey", email="desarrollo@monterrey.gob.mx" },
