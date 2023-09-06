@@ -22,7 +22,6 @@ with open(api_settings.FIREBASE_APP_CONFIG_KEY) as config_file:
     firebase_app = firebase.initialize_app(json.load(config_file))
     firebase_auth = firebase_app.auth()
 
-
 def get_user(request):
     if not hasattr(request, "_cached_user"):
         request._cached_user = auth.get_user(request)
