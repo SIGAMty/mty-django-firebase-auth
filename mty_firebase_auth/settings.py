@@ -7,8 +7,6 @@ from rest_framework.settings import APISettings
 
 from .utils import map_firebase_uid_to_username
 
-USER_SETTINGS = getattr(settings, 'MTY_FIREBASE_AUTH', None)
-
 DEFAULTS = {
     # allow anonymous requests without Authorization header set
     'ALLOW_ANONYMOUS_REQUESTS': os.getenv('ALLOW_ANONYMOUS_REQUESTS', False),
@@ -38,6 +36,8 @@ DEFAULTS = {
     # and return str
     'FIREBASE_USERNAME_MAPPING_FUNC': map_firebase_uid_to_username
 }
+
+USER_SETTINGS = getattr(settings, 'MTY_FIREBASE_AUTH', None)
 
 # List of settings that may be in string import notation.
 IMPORT_STRINGS = (
