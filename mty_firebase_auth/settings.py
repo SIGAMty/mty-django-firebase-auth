@@ -37,7 +37,7 @@ DEFAULTS = {
     'FIREBASE_USERNAME_MAPPING_FUNC': map_firebase_uid_to_username
 }
 
-USER_SETTINGS = getattr(settings, 'MTY_FIREBASE_AUTH', None)
+USER_SETTINGS = os.getenv('MTY_FIREBASE_AUTH', getattr(settings, 'MTY_FIREBASE_AUTH', None))
 
 # List of settings that may be in string import notation.
 IMPORT_STRINGS = (
