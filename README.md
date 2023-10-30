@@ -9,15 +9,15 @@
 ## Installation
 
 ```
-$ pip install mty-firebase-auth
+$ pip install mty-django-firebase-auth
 ```
 
 Add the application to your project's `INSTALLED_APPS` in `settings.py`.
 
 ```python
 INSTALLED_APPS = [
-    ...
-    'mty_firebase_auth',
+    # ...
+    'mty_django_firebase_auth',
 ]
 ```
 
@@ -26,17 +26,17 @@ In your project's `settings.py`, add this to the `REST_FRAMEWORK` configuration.
 
 ```python
 REST_FRAMEWORK = {
-  ...
+  # ...
   'DEFAULT_AUTHENTICATION_CLASSES': [
-    ...
+    # ...
     'rest_framework.authentication.SessionAuthentication',
-    'mty_firebase_auth.authentication.FirebaseAuthentication',
+    'mty_django_firebase_auth.authentication.FirebaseAuthentication',
   ]
 }
 ```
 
 
-The `mty_firebase_auth` application comes with the following settings as default, which can be overridden in your project's `settings.py` file. For convenience in version >= 1, most of these can be conveniently set form environment variables also. Make sure to nest them within `MTY_FIREBASE_AUTH` as below:
+The `mty_django_firebase_auth` application comes with the following settings as default, which can be overridden in your project's `settings.py` file. For convenience in version >= 1, most of these can be conveniently set form environment variables also. Make sure to nest them within `MTY_FIREBASE_AUTH` as below:
 
 
 ```python
@@ -72,7 +72,7 @@ You can get away with leaving all the settings as default except for `FIREBASE_S
 
 NOTE: `FIREBASE_USERNAME_MAPPING_FUNC` will replace behaviour in version < 1 as default (formerly provided by logic in `map_firebase_to_username_legacy`, described below). One can simply switch out this function.
 
-`mty_firebase_auth.utils` contains functions for mapping firebase user info to the Django username field (new in version >= 1). Any custom function can be supplied here, as long as it accepts a `firebase_admin.auth.UserRecord` argument. The supplied functions are common use-cases:
+`mty_django_firebase_auth.utils` contains functions for mapping firebase user info to the Django username field (new in version >= 1). Any custom function can be supplied here, as long as it accepts a `firebase_admin.auth.UserRecord` argument. The supplied functions are common use-cases:
 
 ```python
 def map_firebase_to_username_legacy(firebase_user: auth.UserRecord) -> str:
@@ -126,7 +126,7 @@ def map_uuid_to_username(
 Now that you have configured the application, run the migrations so that the Firebase data can be stored.
 
 ```
-$ ./manage.py migrate mty_firebase_auth
+$ ./manage.py migrate mty_django_firebase_auth
 ```
 
 All you need to do now is have your client code handle the Firebase popup/redirect authentication flow, retrieve the idToken from the currentUser (Firebase explains this flow well in their docs: `https://firebase.google.com/docs/auth/admin/verify-id-tokens`), and then use the idToken for the user in an `Authorization` header in requests to your API.

@@ -1,5 +1,5 @@
 """Metadata for mty-firebase-auth package."""
-__title__ = 'mty_firebase_auth'
+__title__ = 'mty_django_firebase_auth'
 __version__ = '0.1.0'
 __description__ = (
     'Custom Django Rest Framework authentication backend for '

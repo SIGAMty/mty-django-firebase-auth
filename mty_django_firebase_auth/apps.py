@@ -4,4 +4,4 @@ from django.apps import AppConfig
 
 class CoreConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'mty_firebase_auth'
+    name = 'mty_django_firebase_auth'

@@ -1,5 +1,5 @@
 [project]
-name = "mty_firebase_auth"
+name = "mty_django_firebase_auth"
 version = "0.1.7"
 authors = [
   { name="Gobierno de Monterrey", email="desarrollo@monterrey.gob.mx" },
@@ -14,8 +14,8 @@ classifiers = [
 ]
 
 [project.urls]
-"Homepage" = "https://github.com/siga_mty/mty_firebase_auth"
-"Bug Tracker" = "https://github.com/siga_mty/mty_firebase_auth/issues"
+"Homepage" = "https://github.com/siga_mty/mty_django_firebase_auth"
+"Bug Tracker" = "https://github.com/siga_mty/mty_django_firebase_auth/issues"
 
 [build-system]
 requires = ["hatchling"]

@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-""" Settings config for the mty_firebase_auth application """
+""" Settings config for the mty_django_firebase_auth application """
 import os
 
 from django.conf import settings

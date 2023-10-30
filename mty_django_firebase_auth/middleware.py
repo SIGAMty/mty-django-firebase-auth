@@ -4,7 +4,7 @@ from django.contrib.auth import get_user_model
 from django.utils import timezone
 from .settings import api_settings
 import logging
-from mty_firebase_auth import __title__
+from mty_django_firebase_auth import __title__
 from firebase_admin import auth as firebase_admin_auth
 from .models import FirebaseUser, FirebaseUserProvider
 from .utils import get_firebase_user_email

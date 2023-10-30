@@ -3,32 +3,32 @@
 Authentication backend for handling firebase user.idToken from incoming
 Authorization header, verifying, and locally authenticating
 """
+
 from typing import Tuple, Dict
 import logging
-
 import firebase_admin
 from firebase_admin import auth as firebase_auth
 from django.utils import timezone
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import AnonymousUser
 from rest_framework import authentication, exceptions
-
+from django.conf import settings
 from .settings import api_settings
 from .models import FirebaseUser, FirebaseUserProvider
-
 from .utils import get_firebase_user_email
 from mty_firebase_auth import __title__
 
 log = logging.getLogger(__title__)
 User = get_user_model()
 
-firebase_credentials = firebase_admin.credentials.Certificate(
-    api_settings.FIREBASE_SERVICE_ACCOUNT_KEY
-)
+firebase_instances = {}
 
-firebase = firebase_admin.initialize_app(
-    credential=firebase_credentials,
-)
+for index, project in enumerate(settings.MTY_FIREBASE_AUTH_PROJECTS):
+    if index == 0:
+        firebase_credentials = firebase_admin.credentials.Certificate(project['SERVICE_ACCOUNT_KEY'])
+        firebase_admin.initialize_app(credential=firebase_credentials)
+    cred = firebase_admin.credentials.Certificate(project['SERVICE_ACCOUNT_KEY'])
+    firebase_instances[project['PROJECT_ID']] = firebase_admin.initialize_app(cred, {'projectId': project['PROJECT_ID']}, name=project['PROJECT_ID'])
 
 
 class FirebaseAuthentication(authentication.TokenAuthentication):
@@ -36,6 +36,7 @@ class FirebaseAuthentication(authentication.TokenAuthentication):
     Token based authentication using firebase.
     """
     keyword = api_settings.FIREBASE_AUTH_HEADER_PREFIX
+    current_firebase_user_app = None
 
     def authenticate_credentials(self, token: str) -> Tuple[AnonymousUser, Dict]:
         try:
@@ -51,20 +52,23 @@ class FirebaseAuthentication(authentication.TokenAuthentication):
         """
         Attempt to verify JWT from Authorization header with Firebase and return the decoded token
         """
-        try:
-            decoded_token = firebase_auth.verify_id_token(token, check_revoked=api_settings.FIREBASE_CHECK_JWT_REVOKED)
-            log.info(f'_decode_token - decoded_token: {decoded_token}')
-            return decoded_token
-        except Exception as e:
-            log.error(f'_decode_token - Exception: {e}')
-            raise Exception(e)
+        for account in settings.MTY_FIREBASE_AUTH_ACCOUNTS:
+            try:
+                self.current_firebase_user_app = firebase_instances[account['PROJECT_ID']]
+                decoded_token = firebase_auth.verify_id_token(token, app=self.current_firebase_user_app, check_revoked=api_settings.FIREBASE_CHECK_JWT_REVOKED)
+                log.info(f'_decode_token - decoded_token: {decoded_token}')
+                return decoded_token
+            except Exception as e:
+                log.error(f'_decode_token - Exception: {e}')
+                # Continuar con el siguiente intento de verificación
+        raise Exception("AccessToken is not valid")
 
     def _authenticate_token(self, decoded_token: Dict) -> firebase_auth.UserRecord:
         """ Returns firebase user if token is authenticated """
         try:
             uid = decoded_token.get('uid')
             log.info(f'_authenticate_token - uid: {uid}')
-            firebase_user = firebase_auth.get_user(uid)
+            firebase_user = firebase_auth.get_user(uid, app=self.current_firebase_user_app)
             log.info(f'_authenticate_token - firebase_user: {firebase_user}')
             if api_settings.FIREBASE_AUTH_EMAIL_VERIFICATION:
                 if not firebase_user.email_verified:
