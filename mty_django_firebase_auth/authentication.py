@@ -44,7 +44,7 @@ class FirebaseAuthentication(authentication.TokenAuthentication):
             firebase_user = self._authenticate_token(decoded_token)
             local_user = self._get_or_create_local_user(firebase_user)
             self._create_local_firebase_user(local_user, firebase_user)
-            return (local_user, decoded_token)
+            return local_user, decoded_token
         except Exception as e:
             raise exceptions.AuthenticationFailed(e)
 
@@ -78,13 +78,13 @@ class FirebaseAuthentication(authentication.TokenAuthentication):
             log.error(f'_authenticate_token - Exception: {e}')
             raise Exception(e)
 
-    def _get_or_create_local_user(self, firebase_user: firebase_auth.UserRecord) -> User:
+    @staticmethod
+    def _get_or_create_local_user(firebase_user: firebase_auth.UserRecord) -> User:
         """
         Attempts to return or create a local User from Firebase user data
         """
         email = get_firebase_user_email(firebase_user)
         log.info(f'_get_or_create_local_user - email: {email}')
-        user = None
         try:
             user = User.objects.get(email=email)
             log.info(
@@ -96,7 +96,7 @@ class FirebaseAuthentication(authentication.TokenAuthentication):
                 )
             user.last_login = timezone.now()
             user.save()
-        except User.DoesNotExist as e:
+        except User.DoesNotExist:
             log.error(
                 f'_get_or_create_local_user - User.DoesNotExist: {email}'
             )
@@ -126,8 +126,8 @@ class FirebaseAuthentication(authentication.TokenAuthentication):
                 raise Exception(e)
         return user
 
-    def _create_local_firebase_user(self, user: User, firebase_user: firebase_auth.UserRecord
-    ):
+    @staticmethod
+    def _create_local_firebase_user(user: User, firebase_user: firebase_auth.UserRecord):
         """ Create a local FireBase model if one does not already exist """
         # pylint: disable=no-member
         local_firebase_user = FirebaseUser.objects.filter(
