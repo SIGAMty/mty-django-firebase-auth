@@ -1,8 +1,8 @@
 [project]
 name = "mty_django_firebase_auth"
-version = "0.1.7"
+version = "0.1.0"
 authors = [
-  { name="Gobierno de Monterrey", email="desarrollo@monterrey.gob.mx" },
+  { name="Gobierno de Monterrey", email="cesar.benjamin@monterrey.gob.mx" },
 ]
 description = "Middleware de autenticación de firebase"
 readme = "README.md"
