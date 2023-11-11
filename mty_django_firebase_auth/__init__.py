@@ -1,16 +1,16 @@
-"""Metadata for mty-firebase-auth package."""
+"""Metadata for mty-django-firebase-auth package."""
 __title__ = 'mty_django_firebase_auth'
 __version__ = '0.1.0'
 __description__ = (
     'Custom Django Rest Framework authentication backend for '
     'parsing Firebase uid tokens and storing as local users.'
-    'This package is a fork of drf-firebase-auth by '
-    'Gary Burgmann <garyburgmann@gmail.com> with some fixes'
-    'and improvements. This package also adds support for login '
+    'This package is a fork of django-firebase-auth '
+    'with some fixes and improvements. '
+    'This package also adds support for login '
     'with email and password, and also adds support for '
-    'custom user models.'
+    'custom user models. And is fully integrated with idmty.'
 )
-__url__ = 'https://github.com/SIGAMty/mty-firebase-auth'
+__url__ = 'https://github.com/SIGAMty/mty-django-firebase-auth'
 __author__ = 'César Benjamín García Martinez'
 __author_email__ = 'cesar.benjamin@monterrey.gob.mx'
 __license__ = 'MIT'
